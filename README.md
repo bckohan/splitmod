@@ -1,2 +1,3 @@
-# django-composite-settings
-Define Django settings across multiple files and packages.
+# splitmod
+
+Split python modules across multiple files.
