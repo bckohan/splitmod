@@ -9,8 +9,8 @@ on:
         description: 'Set to on, to open ssh debug session.'
         required: true
         default: 'off'
-  schedule:
-    - cron: '0 13 * * *'  # Runs at 6 am pacific every day
+  # schedule:
+  #   - cron: '0 13 * * *'  # Runs at 6 am pacific every day
 
 jobs:
 
@@ -19,19 +19,6 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
-        django-version:
-          - '3.2' # LTS April 2024
-          - '4.2' # LTS April 2026
-          - '5.0' # April 2025
-        exclude:
-          - python-version: '3.8'
-            django-version: '5.0'
-          - python-version: '3.9'
-            django-version: '5.0'
-          - python-version: '3.11'
-            django-version: '3.2'
-          - python-version: '3.12'
-            django-version: '3.2'
 
     steps:
     - uses: actions/checkout@v4
@@ -64,21 +51,13 @@ jobs:
     - name: Run Unit Tests
       run: |
         poetry run pytest
-        poetry run pytest --cov-append -k test_dataclasses
-        poetry run pytest --cov-append -k test_dict
-        poetry run pytest --cov-append -k test_no_django
-        poetry run pip uninstall -y rich
-        poetry run pytest --cov-append
-        poetry run pytest --cov-append -k test_dataclasses
-        poetry run pytest --cov-append -k test_dict
-        poetry run pytest --cov-append -k test_no_django
-        mv .coverage py${{ matrix.python-version }}-dj${{ matrix.django-version }}.coverage
+        mv .coverage py${{ matrix.python-version }}.coverage
 
     - name: Store coverage files
       uses: actions/upload-artifact@v4
       with:
-        name: coverage-py${{ matrix.python-version }}-dj${{ matrix.django-version }}
-        path: py${{ matrix.python-version }}-dj${{ matrix.django-version }}.coverage
+        name: coverage-py${{ matrix.python-version }}
+        path: py${{ matrix.python-version }}.coverage
 
   coverage-combine:
     needs: [test]
