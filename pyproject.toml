@@ -52,7 +52,7 @@ readme-renderer = {extras = ["md"], version = ">=42,<44"}
 pytest-env = "^1.0.0"
 pexpect = "^4.9.0"
 pyright = "^1.1.357"
-ruff = "^0.4.1"
+ruff = "^0.5.3"
 mypy = "^1.10.0"
 Django = ">=3.2"
 
